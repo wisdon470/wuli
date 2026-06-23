@@ -1,0 +1,20 @@
+{
+  "name": "hexo-site",
+  "version": "0.0.0",
+  "private": true,
+  "hexo": {
+    "version": "7.1.0"
+  },
+  "scripts": {
+    "build": "hexo generate",
+    "clean": "hexo clean",
+    "deploy": "hexo deploy",
+    "server": "hexo server -p 4000"
+  },
+  "dependencies": {
+    "hexo": "^7.1.0",
+    "hexo-cli": "^4.3.0",
+    "hexo-renderer-marked": "^7.0.1",
+    "hexo-theme-landscape": "^1.1.0"
+  }
+}
