@@ -29,28 +29,21 @@
         .card-header { padding: 20px 25px; font-size: 1.3em; font-weight: 600; display: flex; align-items: center; gap: 10px; color: white; }
         .homework-header { background: linear-gradient(135deg, #667eea, #764ba2); }
         .answer-header { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .card-body { padding: 25px; min-height: 400px; }
-
-        /* 作业 */
+        .card-body { padding: 25px; }
         h3 { color: #667eea; margin: 18px 0 8px; font-size: 1.1em; }
         h3:first-child { margin-top: 0; }
         .hw-text { font-size: 1.05em; line-height: 2; color: #444; }
-
-        /* 答案 */
         .answer-content { display: flex; flex-direction: column; gap: 16px; }
         .answer-item { background: #f8f9fa; border-radius: 8px; padding: 15px; border-left: 4px solid #11998e; }
         .answer-item h4 { color: #11998e; margin-bottom: 10px; font-size: 1em; }
         .ans-text { background: #e8f5e9; padding: 12px 15px; border-radius: 6px; font-family: Consolas, Monaco, monospace; font-size: 0.95em; color: #2e7d32; line-height: 1.6; }
-
-        /* 图片 - 可点击放大 */
         .zoom-img { max-width: 100%; border-radius: 6px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .zoom-img:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; cursor: pointer; justify-content: center; align-items: center; }
+        
+        #overlay img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; transform: scale(1.2); }
 
-        /* 图片放大遮罩 */
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; cursor: pointer; justify-content: center; align-items: center; }
-        #overlay img { max-width: 95%; max-height: 95%; object-fit: contain; border-radius: 8px; }
         #overlay.show { display: flex; }
-
         .missing { color: #e57373; font-style: italic; }
         .placeholder { color: #999; font-style: italic; text-align: center; padding: 60px 20px; }
         footer { text-align: center; padding: 30px; color: #666; font-size: 0.9em; }
@@ -61,12 +54,9 @@
         <h1>桐城中学叶老师教学</h1>
         <p class="subtitle">高中物理 · 作业布置与答案核对</p>
     </header>
-
-    <!-- 图片放大遮罩 -->
     <div id="overlay" onclick="closeZoom()">
         <img id="zoomed-img" src="" alt="">
     </div>
-
     <div class="container">
         <div class="two-columns">
             <div class="card">
@@ -74,16 +64,15 @@
                     <span>&#128221;</span><span>作业布置</span>
                 </div>
                 <div class="card-body">
-                        <h3>今日作业（2026-06-24）</h3>
-                        <div class="hw-text">- 完成《光学》章节练习卷第 3-5 题<br>- 整理全反射知识点笔记<br>- 预习光的干涉现象</div>
+                        <h3>今日作业</h3>
+                        <div class="hw-text">- 复习光的干涉实验原理<br>- 完成练习册第 28 页 1-5 题<br>- 整理双缝干涉条纹特点笔记</div>
                         <h3>本周重点</h3>
-                        <div class="hw-text">- 理解全反射的临界角概念<br>- 掌握光导纤维的工作原理<br>- 能够运用折射定律解决实际问题</div>
+                        <div class="hw-text">- 理解干涉条纹的形成条件<br>- 掌握条纹间距公式 Δx = λL/d<br>- 能区分干涉与衍射现象</div>
                         <h3>温馨提示</h3>
-                        <div class="hw-text">作业请于明天上午课前交齐，如有疑问可在课后咨询。</div>
+                        <div class="hw-text">明天物理课有小测验，请做好准备！</div>
 
                 </div>
             </div>
-
             <div class="card">
                 <div class="card-header answer-header">
                     <span>&#9989;</span><span>答案核对</span>
@@ -91,16 +80,12 @@
                 <div class="card-body">
                     <div class="answer-content">
                         <div class="answer-item">
-                            <h4>第3题答案</h4>
-                            <div class="ans-text">解：根据折射定律 n₁sinθ₁ = n₂sinθ₂<br>代入数据得：1 × sin45° = 1.5 × sinθ₂<br>解得：θ₂ = arcsin(√2/3) ≈ 28.1°</div>
+                            <h4>选择题答案</h4>
+                            <img src="选择题答案.png" alt="选择题答案" class="zoom-img" onclick="zoom(this)">
                         </div>
                         <div class="answer-item">
-                            <h4>第4题手写解析</h4>
-                            <p class="missing">[图片不存在: 第4题答案.png]</p>
-                        </div>
-                        <div class="answer-item">
-                            <h4>第5题答案</h4>
-                            <div class="ans-text">临界角 C = arcsin(1/n) = arcsin(1/1.5) ≈ 41.8°<br>因为入射角 45° > C，所以发生全反射。</div>
+                            <h4>第10题答案</h4>
+                            <img src="第10题答案.png" alt="第10题答案" class="zoom-img" onclick="zoom(this)">
                         </div>
 
                     </div>
@@ -108,12 +93,10 @@
             </div>
         </div>
     </div>
-
     <footer>
         <p>桐城中学 · 高中物理教学组</p>
         <p>&copy; 2026 叶老师</p>
     </footer>
-
     <script>
     function zoom(img) {
         document.getElementById('zoomed-img').src = img.src;
@@ -122,7 +105,6 @@
     function closeZoom() {
         document.getElementById('overlay').classList.remove('show');
     }
-    // ESC 关闭
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeZoom();
     });

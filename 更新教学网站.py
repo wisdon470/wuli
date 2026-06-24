@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 桐城中学叶老师教学 - 网站更新工具 v4
-简洁版：作业(文本) + 答案(文本/图片可点击放大)
+先生成到本地，确认后再上传
 """
 import re, os, subprocess
 
@@ -27,7 +27,6 @@ def read_config():
     return {'homeworks': homeworks, 'answers': answers}
 
 def generate_html(config):
-    # 作业 HTML
     hw_html = ""
     for hw in config['homeworks']:
         c = hw['content'].replace('\n', '<br>')
@@ -37,7 +36,6 @@ def generate_html(config):
     if not hw_html:
         hw_html = '<div class="placeholder">暂无作业</div>'
 
-    # 答案 HTML（图片支持点击放大）
     ans_html = ""
     for a in config['answers']:
         if a['type'] == 'image':
@@ -95,28 +93,21 @@ def generate_html(config):
         .card-header {{ padding: 20px 25px; font-size: 1.3em; font-weight: 600; display: flex; align-items: center; gap: 10px; color: white; }}
         .homework-header {{ background: linear-gradient(135deg, #667eea, #764ba2); }}
         .answer-header {{ background: linear-gradient(135deg, #11998e, #38ef7d); }}
-        .card-body {{ padding: 25px; min-height: 400px; }}
-
-        /* 作业 */
+        .card-body {{ padding: 25px; }}
         h3 {{ color: #667eea; margin: 18px 0 8px; font-size: 1.1em; }}
         h3:first-child {{ margin-top: 0; }}
         .hw-text {{ font-size: 1.05em; line-height: 2; color: #444; }}
-
-        /* 答案 */
         .answer-content {{ display: flex; flex-direction: column; gap: 16px; }}
         .answer-item {{ background: #f8f9fa; border-radius: 8px; padding: 15px; border-left: 4px solid #11998e; }}
         .answer-item h4 {{ color: #11998e; margin-bottom: 10px; font-size: 1em; }}
         .ans-text {{ background: #e8f5e9; padding: 12px 15px; border-radius: 6px; font-family: Consolas, Monaco, monospace; font-size: 0.95em; color: #2e7d32; line-height: 1.6; }}
-
-        /* 图片 - 可点击放大 */
         .zoom-img {{ max-width: 100%; border-radius: 6px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }}
         .zoom-img:hover {{ transform: scale(1.02); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }}
+        #overlay {{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; cursor: pointer; justify-content: center; align-items: center; }}
+        
+        #overlay img {{ max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; transform: scale(1.2); }}
 
-        /* 图片放大遮罩 */
-        #overlay {{ display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; cursor: pointer; justify-content: center; align-items: center; }}
-        #overlay img {{ max-width: 95%; max-height: 95%; object-fit: contain; border-radius: 8px; }}
         #overlay.show {{ display: flex; }}
-
         .missing {{ color: #e57373; font-style: italic; }}
         .placeholder {{ color: #999; font-style: italic; text-align: center; padding: 60px 20px; }}
         footer {{ text-align: center; padding: 30px; color: #666; font-size: 0.9em; }}
@@ -127,12 +118,9 @@ def generate_html(config):
         <h1>桐城中学叶老师教学</h1>
         <p class="subtitle">高中物理 · 作业布置与答案核对</p>
     </header>
-
-    <!-- 图片放大遮罩 -->
     <div id="overlay" onclick="closeZoom()">
         <img id="zoomed-img" src="" alt="">
     </div>
-
     <div class="container">
         <div class="two-columns">
             <div class="card">
@@ -143,7 +131,6 @@ def generate_html(config):
 {hw_html}
                 </div>
             </div>
-
             <div class="card">
                 <div class="card-header answer-header">
                     <span>&#9989;</span><span>答案核对</span>
@@ -156,12 +143,10 @@ def generate_html(config):
             </div>
         </div>
     </div>
-
     <footer>
         <p>桐城中学 · 高中物理教学组</p>
         <p>&copy; 2026 叶老师</p>
     </footer>
-
     <script>
     function zoom(img) {{
         document.getElementById('zoomed-img').src = img.src;
@@ -170,7 +155,6 @@ def generate_html(config):
     function closeZoom() {{
         document.getElementById('overlay').classList.remove('show');
     }}
-    // ESC 关闭
     document.addEventListener('keydown', function(e) {{
         if (e.key === 'Escape') closeZoom();
     }});
@@ -180,36 +164,79 @@ def generate_html(config):
 
 def main():
     print("=" * 50)
-    print("  [v4] Website Update Tool")
+    print("  教学网站 - 本地生成工具")
     print("=" * 50)
-
+    print()
     print("[1] Reading config...")
     try:
         config = read_config()
-        print(f"    Homework: {len(config['homeworks'])}, Answers: {len(config['answers'])}")
+        print(f"    Homework: {len(config['homeworks'])}")
+        print(f"    Answers:  {len(config['answers'])}")
     except Exception as e:
         print(f"[ERROR] {e}")
         os.system("pause")
         return
 
+    print()
     print("[2] Generating webpage...")
     html = generate_html(config)
     with open(INDEX_FILE, 'w', encoding='utf-8') as f:
         f.write(html)
     print(f"    Saved: {INDEX_FILE}")
 
+    print()
+    print("=" * 50)
+    print("  [OK] Generated locally!")
+    print("  File: " + os.path.abspath(INDEX_FILE))
+    print()
+    print("  Open this file in browser to preview.")
+    print("  If OK, let me know and I'll upload to GitHub.")
+    print("=" * 50)
+    print()
+    os.system("pause")
+
+def upload():
+    """上传到 GitHub"""
+    print("=" * 50)
+    print("  上传到 GitHub")
+    print("=" * 50)
+    print()
+    print("[1] Reading config...")
+    config = read_config()
+    print(f"    Homework: {len(config['homeworks'])}")
+    print(f"    Answers:  {len(config['answers'])}")
+
+    print()
+    print("[2] Generating webpage...")
+    html = generate_html(config)
+    with open(INDEX_FILE, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print(f"    Saved: {INDEX_FILE}")
+
+    print()
     print("[3] Pushing to GitHub...")
     subprocess.run('git add -A', shell=True, capture_output=True)
     subprocess.run('git commit -m "Update website"', shell=True, capture_output=True)
     r = subprocess.run('git push origin gh-pages', shell=True, capture_output=True)
 
     if r.returncode == 0:
-        print("\n  [OK] Updated! https://wisdon470.github.io/wuli/")
+        print()
+        print("=" * 50)
+        print("  [SUCCESS] Website Updated!")
+        print("  https://wisdon470.github.io/wuli/")
+        print("=" * 50)
     else:
-        print("\n  [INFO] Network issue, saved locally. Try again later.")
-
+        print()
+        print("[INFO] Network issue, please try again later")
     print()
     os.system("pause")
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == 'upload':
+        upload()
+    else:
+        main()
 
 if __name__ == "__main__":
     main()
