@@ -39,9 +39,17 @@
         .ans-text { background: #e8f5e9; padding: 12px 15px; border-radius: 6px; font-family: Consolas, Monaco, monospace; font-size: 0.95em; color: #2e7d32; line-height: 1.6; }
         .zoom-img { max-width: 100%; border-radius: 6px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .zoom-img:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; cursor: pointer; justify-content: center; align-items: center; }
-        #overlay img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 8px; }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 9999; justify-content: center; align-items: center; }
         #overlay.show { display: flex; }
+        #overlay .img-wrapper { position: relative; max-width: 98vw; max-height: 98vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #overlay img { max-width: 98vw; max-height: 92vh; object-fit: contain; border-radius: 4px; cursor: default; }
+        #overlay .nav-bar { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 12px; }
+        #overlay .nav-btn { background: rgba(255,255,255,0.15); color: white; border: none; font-size: 18px; padding: 8px 24px; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+        #overlay .nav-btn:hover { background: rgba(255,255,255,0.3); }
+        #overlay .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        #overlay .page-indicator { color: rgba(255,255,255,0.7); font-size: 15px; }
+        #overlay .close-btn { position: fixed; top: 20px; right: 30px; color: white; font-size: 36px; cursor: pointer; opacity: 0.7; z-index: 10000; line-height: 1; }
+        #overlay .close-btn:hover { opacity: 1; }
         .missing { color: #e57373; font-style: italic; }
         .placeholder { color: #999; font-style: italic; text-align: center; padding: 60px 20px; }
         footer { text-align: center; padding: 30px; color: #666; font-size: 0.9em; }
@@ -52,8 +60,16 @@
         <h1>桐城中学叶老师教学</h1>
         <p class="subtitle">高中物理 · 作业布置与答案核对</p>
     </header>
-    <div id="overlay" onclick="closeZoom()">
-        <img id="zoomed-img" src="" alt="">
+    <div id="overlay" onclick="if(event.target===this)closeZoom()">
+        <span class="close-btn" onclick="closeZoom()">&times;</span>
+        <div class="img-wrapper">
+            <img id="zoomed-img" src="" alt="">
+            <div class="nav-bar">
+                <button class="nav-btn" id="prevBtn" onclick="prevImg()">◀ 上一页</button>
+                <span class="page-indicator" id="pageIndicator">1 / 4</span>
+                <button class="nav-btn" id="nextBtn" onclick="nextImg()">下一页 ▶</button>
+            </div>
+        </div>
     </div>
     <div class="container">
         <div class="two-columns">
@@ -74,28 +90,7 @@
                     <span>&#9989;</span><span>答案核对</span>
                 </div>
                 <div class="card-body">
-                    <div class="answer-content">
-                        <div class="answer-item">
-                            <h4>选择题答案</h4>
-                            <img src="选择题答案.png" alt="选择题答案" class="zoom-img" onclick="zoom(this)">
-                        </div>
-                        <div class="answer-item">
-                            <h4>实验题答案</h4>
-                            <img src="实验题答案.png" alt="实验题答案" class="zoom-img" onclick="zoom(this)">
-                        </div>
-                        <div class="answer-item">
-                            <h4>第9题答案1</h4>
-                            <img src="第9题答案1.png" alt="第9题答案1" class="zoom-img" onclick="zoom(this)">
-                        </div>
-                        <div class="answer-item">
-                            <h4>第9题答案2</h4>
-                            <img src="第9题答案2.png" alt="第9题答案2" class="zoom-img" onclick="zoom(this)">
-                        </div>
-                        <div class="answer-item">
-                            <h4>第10题答案</h4>
-                            <img src="第10题答案.png" alt="第10题答案" class="zoom-img" onclick="zoom(this)">
-                        </div>
-
+                    <div class="answer-content" id="answer-list">
                     </div>
                 </div>
             </div>
@@ -106,16 +101,82 @@
         <p>&copy; 2026 叶老师</p>
     </footer>
     <script>
-    function zoom(img) {
-        document.getElementById('zoomed-img').src = img.src;
+    // 答案图片列表——按顺序添加即可
+    const answerImages = [];
+
+    let currentIndex = 0;
+
+    function openGallery(index) {
+        currentIndex = index;
+        showImage(index);
         document.getElementById('overlay').classList.add('show');
+        document.body.style.overflow = 'hidden';
     }
+
+    function showImage(index) {
+        const img = document.getElementById('zoomed-img');
+        img.src = answerImages[index];
+        const total = answerImages.length;
+        document.getElementById('pageIndicator').textContent = (index + 1) + ' / ' + total;
+        document.getElementById('prevBtn').disabled = (index === 0);
+        document.getElementById('nextBtn').disabled = (index === total - 1);
+    }
+
+    function nextImg() {
+        if (currentIndex < answerImages.length - 1) {
+            currentIndex++;
+            showImage(currentIndex);
+        }
+    }
+
+    function prevImg() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            showImage(currentIndex);
+        }
+    }
+
     function closeZoom() {
         document.getElementById('overlay').classList.remove('show');
+        document.body.style.overflow = '';
     }
+
+    // 键盘快捷键
     document.addEventListener('keydown', function(e) {
+        const overlay = document.getElementById('overlay');
+        if (!overlay.classList.contains('show')) return;
         if (e.key === 'Escape') closeZoom();
+        if (e.key === 'ArrowRight') nextImg();
+        if (e.key === 'ArrowLeft') prevImg();
     });
+
+    // ========== 自动生成答案列表 ==========
+    // 图片命名规则：答案1.png、答案2.png、答案3.png ...
+    // 后面还有答案就继续加：
+    // const totalPages = 5;  // 修改这个数字即可
+    // for (let i = 1; i <= totalPages; i++) {
+    //     answerImages.push('答案' + i + '.png');
+    // }
+
+    // 当前答案图片——按顺序命名：答案1.png、答案2.png……
+    const answerList = [
+        '答案1.png',
+        '答案2.png',
+        '答案3.png',
+        '答案4.png',
+        '答案5.png'
+    ];
+    // 加入全局数组
+    answerList.forEach(function(src) { answerImages.push(src); });
+
+    // 生成页面上的缩略图列表
+    var listDiv = document.getElementById('answer-list');
+    for (var i = 0; i < answerImages.length; i++) {
+        var item = document.createElement('div');
+        item.className = 'answer-item';
+        item.innerHTML = '<img src="' + answerImages[i] + '" class="zoom-img" onclick="openGallery(' + i + ')">';
+        listDiv.appendChild(item);
+    }
     </script>
 </body>
 </html>
