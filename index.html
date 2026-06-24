@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>桐城中学--叶老师教学</title>
+    <title>桐城中学---叶老师教学</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -30,9 +30,9 @@
         .homework-header { background: linear-gradient(135deg, #667eea, #764ba2); }
         .answer-header { background: linear-gradient(135deg, #11998e, #38ef7d); }
         .card-body { padding: 25px; }
-        h3 { color: #667eea; margin: 18px 0 8px; font-size: 1.1em; }
+        h3 { color: #667eea; margin: 18px 0 8px; font-size: 1.5em; }
         h3:first-child { margin-top: 0; }
-        .hw-text { font-size: 1.05em; line-height: 2; color: #444; }
+        .hw-text { font-size: 1.25em; line-height: 2; color: #444; }
         .answer-content { display: flex; flex-direction: column; gap: 16px; }
         .answer-item { background: #f8f9fa; border-radius: 8px; padding: 15px; border-left: 4px solid #11998e; }
         .answer-item h4 { color: #11998e; margin-bottom: 10px; font-size: 1em; }
@@ -57,7 +57,7 @@
 </head>
 <body>
     <header>
-        <h1>桐城中学--叶老师教学</h1>
+        <h1>桐城中学---叶老师教学</h1>
         <p class="subtitle">高中物理 · 作业布置与答案核对</p>
     </header>
     <div id="overlay" onclick="if(event.target===this)closeZoom()">
@@ -79,9 +79,9 @@
                 </div>
                 <div class="card-body">
                         <h3>今日作业</h3>
-                        <div class="hw-text">- （1）《红对勾》65-66页--->周四早上收<br>- （2）试卷《选择性必修2---第一套》--->周五晚上对答案<br>-</div>
+                        <div class="hw-text">（1）《红对勾》65-66页→ 周五早上收<br>（2）试卷《选择性必修2》→ 周五晚上对答案</div>
                         <h3>本周重点</h3>
-                        <div class="hw-text">- 光电效应<br>- 氢原子光谱和玻尔的原子模型<br>-</div>
+                        <div class="hw-text">（1）光电效应（1921年诺贝尔奖）<br>（2）氢原子光谱和玻尔的原子模型（1922年诺贝尔奖）<br>（3）了解：密立根（1923年诺奖）→ 实验验证光电效应<br>（4）了解：实验现象（赫兹/勒纳德）→ 理论解释（爱因斯坦1905）→ 精确实验验证（密立根1916年左右）</div>
 
                 </div>
             </div>
@@ -112,6 +112,18 @@
                         <div class="answer-item">
                             <img src="答案7.png" class="zoom-img" onclick="openGallery(6)">
                         </div>
+                        <div class="answer-item">
+                            <img src="答案8.png" class="zoom-img" onclick="openGallery(7)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案9.png" class="zoom-img" onclick="openGallery(8)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案10.png" class="zoom-img" onclick="openGallery(9)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案11.png" class="zoom-img" onclick="openGallery(10)">
+                        </div>
 
                     </div>
                 </div>
@@ -123,7 +135,7 @@
         <p>&copy; 2026 叶老师</p>
     </footer>
     <script>
-    const answerImages = ['答案1.png', '答案2.png', '答案3.png', '答案4.png', '答案5.png', '答案6.png', '答案7.png'];
+    const answerImages = ['答案1.png', '答案2.png', '答案3.png', '答案4.png', '答案5.png', '答案6.png', '答案7.png', '答案8.png', '答案9.png', '答案10.png', '答案11.png'];
     let currentIndex = 0;
 
     function openGallery(index) {
