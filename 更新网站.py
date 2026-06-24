@@ -8,6 +8,10 @@ import os
 import base64
 import json
 import urllib.request
+import sys
+
+# 设置 UTF-8 输出
+sys.stdout.reconfigure(encoding='utf-8')
 
 # ========== 配置区 ==========
 GITHUB_TOKEN = "github_pat_11CGUXXAQ05RxD4emvuJh_lwmK5PmTNaepcbcWeLb9wIgePM6aeUZRXOHztAwwtvuJ464TG3KAAslWcmY"
@@ -15,7 +19,7 @@ REPO_OWNER = "wisdon470"
 REPO_NAME = "wuli"
 BRANCH = "gh-pages"
 CONFIG_FILE = "config.md"
-INDEX_FILE = "public/index.html"
+INDEX_FILE = "index.html"
 # ============================
 
 def read_config():
@@ -50,9 +54,6 @@ def read_config():
     
     # 解析答案列表
     answers = []
-    answer_blocks = re.findall(r'===分隔线===\n(===分隔线===)?\n===分隔线===\n答案\d+：(.+?)\n类型：(.+?)\n内容：\n([\s\S]*?)===分隔线===', content)
-    
-    # 更简单的答案解析
     raw_answers = re.split(r'\n===\s*$', content, flags=re.MULTILINE)
     for block in raw_answers:
         if '答案' in block and '类型：' in block:
@@ -236,6 +237,7 @@ def generate_html(config):
             font-family: "Consolas", "Monaco", monospace;
             font-size: 0.95em;
             color: #2e7d32;
+            white-space: pre-line;
         }}
         
         .placeholder {{
@@ -268,7 +270,7 @@ def generate_html(config):
             <!-- 作业布置区域 -->
             <div class="card">
                 <div class="card-header homework-header">
-                    <span class="icon">📝</span>
+                    <span class="icon">[emoji]</span>
                     <span>作业布置</span>
                 </div>
                 <div class="card-body">
@@ -290,7 +292,7 @@ def generate_html(config):
             <!-- 答案核对区域 -->
             <div class="card">
                 <div class="card-header answer-header">
-                    <span class="icon">✅</span>
+                    <span class="icon">[emoji]</span>
                     <span>答案核对</span>
                 </div>
                 <div class="card-body">
@@ -303,7 +305,7 @@ def generate_html(config):
     
     <footer>
         <p>桐城中学 · 高中物理教学组</p>
-        <p>© 2026 叶老师</p>
+        <p>&copy; 2026 叶老师</p>
     </footer>
 </body>
 </html>'''
@@ -358,55 +360,52 @@ def upload_to_github(content, path, message):
     try:
         with urllib.request.urlopen(req) as resp:
             result = json.loads(resp.read())
-            print(f"✅ 上传成功: {path}")
+            print(f"[OK] Uploaded: {path}")
             return True
     except Exception as e:
-        print(f"❌ 上传失败: {e}")
+        print(f"[FAIL] Upload error: {e}")
         return False
 
 def main():
     print("=" * 50)
-    print("桐城中学叶老师教学 - 网站更新工具")
+    print(" 桐城中学叶老师教学 - Website Update Tool")
     print("=" * 50)
     print()
     
-    # 1. 读取配置
-    print("📖 读取配置文件...")
+    # 1. Read config
+    print("[1] Reading config file...")
     try:
         config = read_config()
-        print(f"   找到 {len(config['homework_items'])} 条作业")
-        print(f"   找到 {len(config['answers'])} 个答案")
+        print(f"    Found {len(config['homework_items'])} homework items")
+        print(f"    Found {len(config['answers'])} answers")
     except Exception as e:
-        print(f"❌ 读取配置失败: {e}")
-        input("\n按回车退出...")
+        print(f"[FAIL] Config read error: {e}")
+        input("\nPress Enter to exit...")
         return
     print()
     
-    # 2. 生成 HTML
-    print("🔧 生成网页...")
+    # 2. Generate HTML
+    print("[2] Generating webpage...")
     html = generate_html(config)
-    
-    # 保存本地副本
-    os.makedirs("public", exist_ok=True)
     with open(INDEX_FILE, 'w', encoding='utf-8') as f:
         f.write(html)
-    print(f"   已保存到: {INDEX_FILE}")
+    print(f"    Saved to: {INDEX_FILE}")
     print()
     
-    # 3. 上传到 GitHub
-    print("🚀 正在上传到 GitHub...")
-    success = upload_to_github(html, "index.html", "更新教学网站内容")
+    # 3. Upload to GitHub
+    print("[3] Uploading to GitHub...")
+    success = upload_to_github(html, INDEX_FILE, "Update teaching website content")
     print()
     
     if success:
         print("=" * 50)
-        print("🎉 更新成功！")
-        print("   网站地址: https://wisdon470.github.io/wuli/")
+        print(" [SUCCESS] Website Updated!")
+        print("    https://wisdon470.github.io/wuli/")
         print("=" * 50)
     else:
-        print("❌ 上传失败，请检查网络或配置")
+        print("[FAIL] Upload failed, please check network")
     
-    input("\n按回车退出...")
+    input("\nPress Enter to exit...")
 
 if __name__ == "__main__":
     main()
