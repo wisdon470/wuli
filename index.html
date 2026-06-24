@@ -65,9 +65,9 @@
         <div class="img-wrapper">
             <img id="zoomed-img" src="" alt="">
             <div class="nav-bar">
-                <button class="nav-btn" id="prevBtn" onclick="prevImg()">◀ 上一页</button>
-                <span class="page-indicator" id="pageIndicator">1 / 4</span>
-                <button class="nav-btn" id="nextBtn" onclick="nextImg()">下一页 ▶</button>
+                <button class="nav-btn" id="prevBtn" onclick="prevImg()">&#9664; 上一页</button>
+                <span class="page-indicator" id="pageIndicator">1 / 1</span>
+                <button class="nav-btn" id="nextBtn" onclick="nextImg()">下一页 &#9654;</button>
             </div>
         </div>
     </div>
@@ -90,7 +90,29 @@
                     <span>&#9989;</span><span>答案核对</span>
                 </div>
                 <div class="card-body">
-                    <div class="answer-content" id="answer-list">
+                    <div class="answer-content">
+                        <div class="answer-item">
+                            <img src="答案1.png" class="zoom-img" onclick="openGallery(0)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案2.png" class="zoom-img" onclick="openGallery(1)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案3.png" class="zoom-img" onclick="openGallery(2)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案4.png" class="zoom-img" onclick="openGallery(3)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案5.png" class="zoom-img" onclick="openGallery(4)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案6.png" class="zoom-img" onclick="openGallery(5)">
+                        </div>
+                        <div class="answer-item">
+                            <img src="答案7.png" class="zoom-img" onclick="openGallery(6)">
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -101,9 +123,7 @@
         <p>&copy; 2026 叶老师</p>
     </footer>
     <script>
-    // 答案图片列表——按顺序添加即可
-    const answerImages = [];
-
+    const answerImages = ['答案1.png', '答案2.png', '答案3.png', '答案4.png', '答案5.png', '答案6.png', '答案7.png'];
     let currentIndex = 0;
 
     function openGallery(index) {
@@ -141,7 +161,6 @@
         document.body.style.overflow = '';
     }
 
-    // 键盘快捷键
     document.addEventListener('keydown', function(e) {
         const overlay = document.getElementById('overlay');
         if (!overlay.classList.contains('show')) return;
@@ -149,34 +168,6 @@
         if (e.key === 'ArrowRight') nextImg();
         if (e.key === 'ArrowLeft') prevImg();
     });
-
-    // ========== 自动生成答案列表 ==========
-    // 图片命名规则：答案1.png、答案2.png、答案3.png ...
-    // 后面还有答案就继续加：
-    // const totalPages = 5;  // 修改这个数字即可
-    // for (let i = 1; i <= totalPages; i++) {
-    //     answerImages.push('答案' + i + '.png');
-    // }
-
-    // 当前答案图片——按顺序命名：答案1.png、答案2.png……
-    const answerList = [
-        '答案1.png',
-        '答案2.png',
-        '答案3.png',
-        '答案4.png',
-        '答案5.png'
-    ];
-    // 加入全局数组
-    answerList.forEach(function(src) { answerImages.push(src); });
-
-    // 生成页面上的缩略图列表
-    var listDiv = document.getElementById('answer-list');
-    for (var i = 0; i < answerImages.length; i++) {
-        var item = document.createElement('div');
-        item.className = 'answer-item';
-        item.innerHTML = '<img src="' + answerImages[i] + '" class="zoom-img" onclick="openGallery(' + i + ')">';
-        listDiv.appendChild(item);
-    }
     </script>
 </body>
 </html>
