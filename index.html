@@ -106,12 +106,49 @@
         .missing { color: #e57373; font-style: italic; }
         .placeholder { color: #999; font-style: italic; text-align: center; padding: 60px 20px; }
         footer { text-align: center; padding: 30px; color: #666; font-size: 0.9em; }
+        .homework-header {
+            position: relative;
+        }
+        #bg-music-btn {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 50px;
+            padding: 6px 14px 6px 12px;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+        #bg-music-btn:hover { background: rgba(255,255,255,0.35); }
     </style>
 </head>
 <body>
+<audio id="bg-music-file" src="辞九门回忆.mp3" loop preload="auto"></audio><script>
+var musicPlaying = false;
+function toggleMusic() {
+    var m = document.getElementById("bg-music-file");
+    var btn = document.getElementById("bg-music-btn");
+    if (!m) return;
+    if (musicPlaying) {
+        m.pause(); m.currentTime = 0;
+        btn.innerHTML = "&#9835; 播放音乐";
+    } else {
+        m.play().catch(()=>{});
+        btn.innerHTML = "&#9834; 暂停";
+    }
+    musicPlaying = !musicPlaying;
+}
+</script>
     <header>
         <div class="header-content">
-            <div class="motto">日拱一卒 &nbsp;功不唐捐</div>
+            <div class="motto">全力以赴，青春无悔</div>
             <div class="header-bottom-border"></div>
         </div>
     </header>
@@ -136,6 +173,7 @@
             <div class="card">
                 <div class="card-header homework-header">
                     <span>&#128221;</span><span>作业布置</span>
+                    <button id="bg-music-btn" onclick="toggleMusic()">&#9835; 播放音乐</button>
                 </div>
                 <div class="card-body">
                         <h3>今日作业</h3>
