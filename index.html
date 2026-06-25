@@ -22,7 +22,7 @@
             color: white;
             position: relative;
             overflow: hidden;
-            min-height: 176px;
+            min-height: 166px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -51,19 +51,30 @@
         .header-content {
             position: relative;
             z-index: 1;
-            padding: 24px 10mm 16px;
+            padding: 22px 10mm 15px;
             width: 100%;
             max-width: 100%;
         }
         .motto {
             font-family: 'Ma Shan Zheng', cursive;
-            font-size: clamp(64px, 10.4vw, 176px);
+            font-size: clamp(60px, 9.8vw, 166px);
             color: #FFD700;
-            text-shadow: 0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,165,0,0.6), 0 4px 8px rgba(0,0,0,0.4);
-            letter-spacing: 14px;
+            text-shadow: 0 0 18px rgba(255,215,0,0.8), 0 0 36px rgba(255,165,0,0.6), 0 4px 6px rgba(0,0,0,0.4);
+            letter-spacing: 13px;
             line-height: 1.05;
             white-space: nowrap;
             font-weight: normal;
+        }
+        .header-bg-img {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            object-position: right bottom;
+            pointer-events: none;
+            z-index: 1;
         }
         .header-bottom-border {
             position: absolute;
@@ -72,7 +83,7 @@
             background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
         }
         .container { max-width: 100%; margin: 0; padding: 30px 20px; }
-        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: calc(100vh - 200px); }
+        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: calc(100vh - 190px); }
         @media (max-width: 900px) { .two-columns { grid-template-columns: 1fr; } }
         .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; height: 100%; display: flex; flex-direction: column; }
         .card-header { padding: 20px 25px; font-size: 1.3em; font-weight: 600; display: flex; align-items: center; gap: 10px; color: white; }
@@ -147,6 +158,7 @@ function toggleMusic() {
 }
 </script>
     <header>
+        <img src="透明奋斗图.png" class="header-bg-img" alt="">
         <div class="header-content">
             <div class="motto">全力以赴 &nbsp; &nbsp;青春无悔</div>
             <div class="header-bottom-border"></div>
