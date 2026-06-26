@@ -146,11 +146,34 @@
 </head>
 <body>
 <audio id="bg-music-file" src="落了白.mp3" loop preload="auto"></audio><script>
+// 默认音乐
+const bgMusicDefault = "落了白.mp3";
+// 按星期几的音乐（周一到周五）
+const musicByDay = ["落了白.mp3", "游京 (滔滔江水).mp3", "辞九门回忆.mp3", "我本将心向明月.mp3", "小城画师.mp3"];
+
+// 根据当前星期几选择音乐
+function getMusicForToday() {
+    const dayOfWeek = new Date().getDay(); // 0=周日, 1=周一, ..., 6=周六
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+        // 周六、周日用周五的音乐（索引4）
+        return musicByDay[4] || bgMusicDefault;
+    } else {
+        // 周一到周五（索引1-5对应数组0-4）
+        return musicByDay[dayOfWeek - 1] || bgMusicDefault;
+    }
+}
+
+// 页面加载时设置音乐
+var musicFile = getMusicForToday();
+if (musicFile) {
+    document.getElementById("bg-music-file").src = musicFile;
+}
+
 var musicPlaying = false;
 function toggleMusic() {
     var m = document.getElementById("bg-music-file");
     var btn = document.getElementById("bg-music-btn");
-    if (!m) return;
+    if (!m || !m.src) return;
     if (musicPlaying) {
         m.pause(); m.currentTime = 0;
         btn.innerHTML = "&#9835; 播放音乐";
