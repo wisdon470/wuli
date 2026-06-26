@@ -91,11 +91,11 @@
         .answer-header { background: linear-gradient(135deg, #11998e, #38ef7d); }
         .card-body { padding: 25px; flex: 1; overflow-y: auto; }
 
-        h3 { color: #667eea; margin: 18px 0 8px; font-size: 2.5em; } #改标题大小
+        h3 { color: #667eea; margin: 18px 0 8px; font-size: 3.0em; } #改标题大小
         
         h3:first-child { margin-top: 0; }
         
-        .hw-text { font-size: 2.0em; line-height: 2; color: #000; } #改内容文字大小
+        .hw-text { font-size: 2.5em; line-height: 2; color: #000; } #改内容文字大小
         
         .answer-content { display: flex; flex-direction: column; gap: 16px; }
         .answer-item { background: #f8f9fa; border-radius: 8px; padding: 15px; border-left: 4px solid #11998e; }
@@ -107,11 +107,11 @@
         #overlay.show { display: flex; }
         #overlay .img-wrapper { position: relative; max-width: 98vw; max-height: 98vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         #overlay img { max-width: 98vw; max-height: 85vh; object-fit: contain; border-radius: 4px; cursor: default; transition: transform 0.2s; }
-        #overlay .zoom-bar { position: fixed; top: 70px; left: 50%; transform: translateX(-50%); z-index: 10001; display: flex; align-items: center; gap: 15px; }
+        #overlay .zoom-bar { position: fixed; top: 70px; right: 76px; z-index: 10001; display: flex; align-items: center; gap: 15px; }
         #overlay .zoom-btn { background: rgba(255,255,255,0.2); color: white; border: none; font-size: 24px; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; transition: background 0.2s; }
         #overlay .zoom-btn:hover { background: rgba(255,255,255,0.4); }
         #overlay .zoom-level { color: white; font-size: 16px; min-width: 60px; text-align: center; }
-        #overlay .nav-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 10001; display: flex; align-items: center; justify-content: center; gap: 30px; }
+        #overlay .nav-bar { position: fixed; bottom: 20px; right: 76px; z-index: 10001; display: flex; align-items: center; justify-content: center; gap: 30px; }
         #overlay .nav-btn { background: rgba(255,255,255,0.15); color: white; border: none; font-size: 18px; padding: 8px 24px; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
         #overlay .nav-btn:hover { background: rgba(255,255,255,0.3); }
         #overlay .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
